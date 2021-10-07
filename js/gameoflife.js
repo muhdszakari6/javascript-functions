@@ -29,7 +29,48 @@ const printCell = (cell, state) => {
 
 };
 
-const corners = (state = []) => {};
+const corners = (state = []) => {
+  if(state.length > 0){
+
+  
+  let x_array = state.map((item)=>{
+    return item[0]
+  })
+  let y_array = state.map((item)=>{
+    return item[1]
+  })
+  console.log(state)
+  console.log("X_array", x_array)
+  console.log("Y_array", y_array)
+
+  let xmin = x_array.reduce(
+    (prev, curr) => Math.min(curr, prev)
+  )
+  let xmax = x_array.reduce(
+    (prev, curr) => Math.max(curr, prev)
+  )
+
+  
+  let ymin = y_array.reduce(
+    (prev, curr) => Math.min(curr, prev)
+  )
+  let ymax = y_array.reduce(
+    (prev, curr) => Math.max(curr, prev)
+  )
+
+  console.log(xmin)
+  console.log(xmax)
+  console.log(ymin)
+  console.log(ymax)
+
+  
+  return {topRight: [xmax,ymax], bottomLeft: [xmin,ymin]}
+  }else{
+  return {topRight: [0,0], bottomLeft: [0,0]}
+
+  }
+
+};
 
 const printCells = (state) => {};
 
