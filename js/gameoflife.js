@@ -30,33 +30,33 @@ const printCell = (cell, state) => {
 };
 
 const corners = (state = []) => {
-  if (state.length > 0) {
-    let x_array = state.map((item) => {
-      return item[0]
-    })
-    
-    let y_array = state.map((item) => {
-      return item[1]
-    })
+  // if (state.length > 0) {
+  //   let x_array = state.map((item) => {
+  //     return item[0]
+  //   })
 
-    let xmin = x_array.reduce(
-      (prev, curr) => Math.min(curr, prev)
-    )
-    let xmax = x_array.reduce(
-      (prev, curr) => Math.max(curr, prev)
-    )
+  //   let y_array = state.map((item) => {
+  //     return item[1]
+  //   })
+
+  //   let xmin = x_array.reduce(
+  //     (prev, curr) => Math.min(curr, prev)
+  //   )
+  //   let xmax = x_array.reduce(
+  //     (prev, curr) => Math.max(curr, prev)
+  //   )
 
 
-    let ymin = y_array.reduce(
-      (prev, curr) => Math.min(curr, prev)
-    )
-    let ymax = y_array.reduce(
-      (prev, curr) => Math.max(curr, prev)
-    )
-    return { topRight: [xmax, ymax], bottomLeft: [xmin, ymin] }
-  } else {
-    return { topRight: [0, 0], bottomLeft: [0, 0] }
-  }
+  //   let ymin = y_array.reduce(
+  //     (prev, curr) => Math.min(curr, prev)
+  //   )
+  //   let ymax = y_array.reduce(
+  //     (prev, curr) => Math.max(curr, prev)
+  //   )
+  //   return { topRight: [xmax, ymax], bottomLeft: [xmin, ymin] }
+  // } else {
+  //   return { topRight: [0, 0], bottomLeft: [0, 0] }
+  // }
 
 };
 
