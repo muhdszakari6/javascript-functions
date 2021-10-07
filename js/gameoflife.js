@@ -30,51 +30,107 @@ const printCell = (cell, state) => {
 };
 
 const corners = (state = []) => {
-  // if (state.length > 0) {
-  //   let x_array = state.map((item) => {
-  //     return item[0]
-  //   })
+  if (state.length > 0) {
+    let x_array = state.map((item) => {
+      return item[0]
+    })
 
-  //   let y_array = state.map((item) => {
-  //     return item[1]
-  //   })
+    let y_array = state.map((item) => {
+      return item[1]
+    })
 
-  //   let xmin = x_array.reduce(
-  //     (prev, curr) => Math.min(curr, prev)
-  //   )
-  //   let xmax = x_array.reduce(
-  //     (prev, curr) => Math.max(curr, prev)
-  //   )
+    let xmin = x_array.reduce(
+      (prev, curr) => Math.min(curr, prev)
+    )
+    let xmax = x_array.reduce(
+      (prev, curr) => Math.max(curr, prev)
+    )
 
 
-  //   let ymin = y_array.reduce(
-  //     (prev, curr) => Math.min(curr, prev)
-  //   )
-  //   let ymax = y_array.reduce(
-  //     (prev, curr) => Math.max(curr, prev)
-  //   )
-  //   return { topRight: [xmax, ymax], bottomLeft: [xmin, ymin] }
-  // } else {
-  //   return { topRight: [0, 0], bottomLeft: [0, 0] }
-  // }
+    let ymin = y_array.reduce(
+      (prev, curr) => Math.min(curr, prev)
+    )
+    let ymax = y_array.reduce(
+      (prev, curr) => Math.max(curr, prev)
+    )
+    return { topRight: [xmax, ymax], bottomLeft: [xmin, ymin] }
+  } else {
+    return { topRight: [0, 0], bottomLeft: [0, 0] }
+  }
 
 };
 
-const printCells = (state) => { 
-  
+const printCells = (state) => {
+
+  let {bottomLeft, topRight} = corners(state)
+  let accumulator = ""
+  for (let y = topRight[1]; y >= bottomLeft[1]; y--) {
+    let row = [];
+    for (let x = bottomLeft[0]; x <= topRight[0]; x++) {
+      row.push(printCell([x,y],state))      
+    }
+    accumulator += row.join(" ") + "\n";
+    
+  }
+  return accumulator;
+
+
 };
 
-const getNeighborsOf = ([x, y]) => { };
+const getNeighborsOf = ([x, y]) => { 
+  return [
+    [x-1,y+1], [x,y+1], [x+1,y+1],
+    [x-1, y],         [x+1, y],
+    [x-1,y-1], [x,y-1], [x+1,y-1],
 
-const getLivingNeighbors = (cell, state) => { };
+  ] 
+};
 
-const willBeAlive = (cell, state) => { };
+const getLivingNeighbors = (cell, state) => { 
+  let neighbors = getNeighborsOf(cell)
+  let living = neighbors.filter(
+    (item) => {
+      return this.contains.bind(state)(item)
+    }
+  )
+  return living
+};
 
-const calculateNext = (state) => { };
+const willBeAlive = (cell, state) => { 
+  if((this.contains.bind(state)(cell) && getLivingNeighbors(cell,state).length == 2)){
+    return true
+  }
+  else if( getLivingNeighbors(cell,state) .length == 3){
+    return true
+  }
+  return false
+};
 
-const iterate = (state, iterations) => { };
+const calculateNext = (state) => {
+  let {bottomLeft, topRight} = corners(state)
+  let result = [] 
+  for(let y = topRight[1]+1 ; y>= bottomLeft[1]-1;y--){
+    for (let x = bottomLeft[0]-1; x <= topRight[0] + 1; x++) {
+      result = result.concat(willBeAlive([x,y], state)? [[x,y]]:[])      
+    }
+  }
+  return result
+ };
 
-const main = (pattern, iterations) => { };
+const iterate = (state, iterations) => {
+  const states = [state]; 
+  for (let i = 0; i < iterations; i++) {
+    states.push(calculateNext(states[states.length -1]))
+  }
+  return states
+ };
+
+const main = (pattern, iterations) => { 
+  const results = iterate(startPatterns[pattern], iterations)
+  results.forEach(
+    r=>console.log(printCells(r))
+  )
+};
 
 const startPatterns = {
   rpentomino: [
